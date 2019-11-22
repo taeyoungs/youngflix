@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "axios": "0.18.1",
     "lodash.template": "^4.5.0",
     "mixin-deep": "^2.0.1",
     "prop-types": "^15.7.2",
