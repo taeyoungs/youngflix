@@ -14,7 +14,9 @@ export const movieApi = {
   popular: () => axios.get('movie/popular'),
   search: term =>
     axios.get('search/movie', {
-      query: encodeURIComponent(term),
+      params: {
+        query: encodeURIComponent(term),
+      },
     }),
   movieDetail: id =>
     axios.get(`movie/${id}`, {
@@ -30,7 +32,9 @@ export const tvApi = {
   popular: () => axios.get('tv/popular'),
   search: term =>
     axios.get('search/tv', {
-      query: encodeURIComponent(term),
+      params: {
+        query: encodeURIComponent(term),
+      },
     }),
   tvDetail: id =>
     axios.get(`tv/${id}`, {
