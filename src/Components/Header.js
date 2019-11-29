@@ -2,7 +2,7 @@ import React from 'react';
 import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
 
-const Header = styled.header`
+const Header = styled('header')`
   position: fixed;
   top: 0;
   left: 0%;
@@ -16,12 +16,12 @@ const Header = styled.header`
   box-shadow: 0px 1px 5px 2px rgba(0, 0, 0, 0.8);
 `;
 
-const List = styled.ul`
+const List = styled('ul')`
   display: flex;
   list-style: none;
 `;
 
-const Item = styled.li`
+const Item = styled('li')`
   width: 90px;
   height: 50px;
   text-align: center;

@@ -16,7 +16,7 @@ const globalStyles = createGlobalStyle`
         background-color: rgba(20, 20, 20, 1);
         font-family: 'Titillium Web';
         font-size: 14px;
-        padding-top: 50px;
+        padding-top: 80px;
     }
 `;
 
