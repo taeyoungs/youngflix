@@ -12,6 +12,7 @@ export const movieApi = {
   nowPlaying: () => axios.get('movie/now_playing'),
   upcoming: () => axios.get('movie/upcoming'),
   popular: () => axios.get('movie/popular'),
+  collection: id => axios.get(`collection/${id}`),
   search: term =>
     axios.get('search/movie', {
       params: {

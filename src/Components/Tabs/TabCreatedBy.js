@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { movieApi, tvApi } from 'api';
+import { tvApi } from 'api';
 
 const Container = styled('div')`
   margin-top: 20px;
@@ -10,7 +10,7 @@ const Container = styled('div')`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fill, 1fr);
   overflow-x: scroll;
 `;
 

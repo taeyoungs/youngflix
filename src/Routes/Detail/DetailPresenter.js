@@ -225,7 +225,10 @@ const DetailPresenter = ({ result, loading, error, isMovie, detailId }) =>
           )}
           <TabsContainer>
             {isMovie ? (
-              <MovieTabs detailId={detailId} />
+              <MovieTabs
+                detailId={detailId}
+                collection={result.belongs_to_collection}
+              />
             ) : (
               <ShowTabs detailId={detailId} />
             )}

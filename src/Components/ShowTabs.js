@@ -4,6 +4,7 @@ import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import TabCompany from 'Components/Tabs/TabCompany';
 import TabCreatedBy from 'Components/Tabs/TabCreatedBy';
+import TabSeason from 'Components/Tabs/TabSeason';
 
 const Container = styled('div')`
   width: 80%;
@@ -47,6 +48,7 @@ const ShowTabs = ({
       </Container>
       <Route path="/show/:id/company" component={TabCompany} />
       <Route path="/show/:id/createdBy" component={TabCreatedBy} />
+      <Route path="/show/:id/season" component={TabSeason} />
     </>
   );
 };

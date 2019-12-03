@@ -23,7 +23,7 @@ const Tab = styled('span')`
   }
 `;
 
-const MovieTabs = ({ detailId, location }) => {
+const MovieTabs = ({ detailId, location, collection }) => {
   return (
     <>
       <Container>
@@ -33,9 +33,11 @@ const MovieTabs = ({ detailId, location }) => {
         <Tab active={location.pathname === `/movie/${detailId}/country`}>
           <Link to={`/movie/${detailId}/country`}>Production Country</Link>
         </Tab>
-        <Tab active={location.pathname === `/movie/${detailId}/collection`}>
-          <Link to={`/movie/${detailId}/collection`}>Collection</Link>
-        </Tab>
+        {collection ? (
+          <Tab>
+            <Link to={`/collection/${collection.id}`}>Collection</Link>
+          </Tab>
+        ) : null}
       </Container>
       <Route path="/movie/:id/company" component={TabCompany} />
       <Route path="/movie/:id/country" component={TabCountry} />

@@ -10,7 +10,7 @@ const Container = styled('div')`
   display: grid;
   grid-auto-flow: column;
   grid-gap: 5px;
-  grid-template-columns: repeat(auto-fill, 200px);
+  grid-template-columns: repeat(auto-fill, 1fr);
   overflow-x: scroll;
 `;
 
@@ -43,7 +43,6 @@ const TabCountry = props => {
   const [error, setError] = useState();
 
   const {
-    location: { pathname },
     history: { push },
     match: {
       params: { id },
