@@ -44,18 +44,20 @@ export default class extends React.Component {
       this.setState({
         loading: false,
         result,
+        detailId: id,
       });
     }
   }
 
   render() {
-    const { result, error, loading, isMovie } = this.state;
+    const { result, error, loading, isMovie, detailId } = this.state;
     return (
       <DetailPresenter
         result={result}
         error={error}
         loading={loading}
         isMovie={isMovie}
+        detailId={detailId}
       />
     );
   }

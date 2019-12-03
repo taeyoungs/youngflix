@@ -9,6 +9,10 @@ const Container = styled('div')`
   }
 `;
 
+const VideoContainer = styled('div')`
+  display: inline-block;
+`;
+
 const VideoLink = styled('a')`
   display: flex;
   align-items: center;
@@ -27,12 +31,14 @@ const VideoIcon = styled(Youtube)`
 const VideoLinks = ({ id, link, name }) => {
   return (
     <Container>
-      <VideoLink
-        href={`https://www.youtube.com/watch?v=${link}`}
-        target="_blank"
-      >
-        <VideoIcon /> {name}
-      </VideoLink>
+      <VideoContainer>
+        <VideoLink
+          href={`https://www.youtube.com/watch?v=${link}`}
+          target="_blank"
+        >
+          <VideoIcon /> {name}
+        </VideoLink>
+      </VideoContainer>
     </Container>
   );
 };
