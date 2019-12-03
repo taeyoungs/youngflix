@@ -14,8 +14,7 @@ const Rating = styled('div')`
 `;
 
 const Image = styled('div')`
-  background-image: url(${props =>
-    `https://image.tmdb.org/t/p/w500${props.imageUrl}`});
+  background-image: url(${props => `${props.imageUrl}`});
   height: 180px;
   background-size: cover;
   background-position: center;
@@ -50,7 +49,13 @@ const Poster = ({ title, imageUrl, year, rating, id, isMovie = false }) => {
     <Link to={isMovie ? `/movie/${id}` : `/show/${id}`}>
       <Container>
         <ImageContainer>
-          <Image imageUrl={imageUrl} />
+          <Image
+            imageUrl={
+              imageUrl
+                ? `https://image.tmdb.org/t/p/w500${imageUrl}`
+                : require('../assets/noPoster.png')
+            }
+          />
           <Rating>
             <span role="img" aria-label="rating">
               ⭐
@@ -58,7 +63,9 @@ const Poster = ({ title, imageUrl, year, rating, id, isMovie = false }) => {
             {rating}/10
           </Rating>
         </ImageContainer>
-        <Title>{title}</Title>
+        <Title>
+          {title.length > 18 ? `${title.substring(0, 18)}...` : title}
+        </Title>
         <Year>{year}</Year>
       </Container>
     </Link>
