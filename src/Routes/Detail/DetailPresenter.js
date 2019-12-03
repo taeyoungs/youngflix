@@ -2,9 +2,10 @@ import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
-import Loader from 'Components/Loader';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import StarRatings from 'react-star-ratings';
+import Loader from 'Components/Loader';
+import VideoLinks from 'Components/VideoLinks';
 
 const Container = styled('div')`
   position: relative;
@@ -85,13 +86,29 @@ const Divider = styled('span')`
 
 const Overview = styled('p')`
   padding: 10px;
-  width: 55%;
+  width: 70%;
   font-size: 17px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.7);
+  margin-bottom: 20px;
 `;
 
-const DetailPresenter = ({ result, loading, error }) =>
+const Imdb = styled('a')`
+  display: flex;
+  align-items: center;
+`;
+
+const ImdbImage = styled('img')`
+  cursor: pointer;
+`;
+
+const VideoContainer = styled('div')``;
+
+const TabsContainer = styled('div')``;
+
+const Tab = styled('span')``;
+
+const DetailPresenter = ({ result, loading, error, isMovie }) =>
   loading ? (
     <Loader />
   ) : (
@@ -173,8 +190,31 @@ const DetailPresenter = ({ result, loading, error }) =>
                   : `${genre.name} / `,
               )}
             </Item>
+            {result.imdb_id && (
+              <>
+                <Divider>•</Divider>
+                <Imdb
+                  href={`https://www.imdb.com/title/${result.imdb_id}/`}
+                  target="_blank"
+                >
+                  <ImdbImage src="imdb.png" alt="imdb" />
+                </Imdb>
+              </>
+            )}
           </ItemContainer>
           <Overview>{result.overview}</Overview>
+          {result.videos.results && (
+            <VideoContainer>
+              {result.videos.results.map(video => (
+                <VideoLinks
+                  key={video.id}
+                  id={video.id}
+                  link={video.key}
+                  name={video.name}
+                />
+              ))}
+            </VideoContainer>
+          )}
         </Data>
       </Content>
     </Container>

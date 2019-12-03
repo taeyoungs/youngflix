@@ -25,7 +25,7 @@ export default class extends React.Component {
     } = this.props;
     const { isMovie } = this.state;
     const parsedId = Number(id);
-    console.log(parsedId);
+    // console.log(parsedId);
     if (isNaN(parsedId)) {
       return push('/');
     }
@@ -49,7 +49,14 @@ export default class extends React.Component {
   }
 
   render() {
-    const { result, error, loading } = this.state;
-    return <DetailPresenter result={result} error={error} loading={loading} />;
+    const { result, error, loading, isMovie } = this.state;
+    return (
+      <DetailPresenter
+        result={result}
+        error={error}
+        loading={loading}
+        isMovie={isMovie}
+      />
+    );
   }
 }
