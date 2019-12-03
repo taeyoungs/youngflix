@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import Loader from 'Components/Loader';
 import Section from 'Components/Section';
 import Message from 'Components/Message';
@@ -15,6 +16,9 @@ const TVPresenter = ({ topRated, airingToday, popular, loading, error }) =>
     <Loader />
   ) : (
     <Container>
+      <Helmet>
+        <title>TV Shows | Youngflix</title>
+      </Helmet>
       {topRated && topRated.length > 0 && (
         <Section title="Top Rated Shows">
           {topRated.map(show => (

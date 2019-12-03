@@ -1,6 +1,7 @@
 import React from 'react';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
+import Helmet from 'react-helmet';
 import Loader from 'Components/Loader';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import StarRatings from 'react-star-ratings';
@@ -60,7 +61,7 @@ const Cover = styled('div')`
 `;
 
 const Data = styled('div')`
-  width: 70%;
+  width: 60%;
 `;
 
 const Title = styled('div')`
@@ -95,6 +96,12 @@ const DetailPresenter = ({ result, loading, error }) =>
     <Loader />
   ) : (
     <Container>
+      <Helmet>
+        <title>
+          {result.original_title ? result.original_title : result.original_name}{' '}
+          | Youngflix
+        </title>
+      </Helmet>
       <Backdrop
         imageUrl={
           result.backdrop_path
@@ -134,7 +141,11 @@ const DetailPresenter = ({ result, loading, error }) =>
               className="shadow"
             />
             <Item>
-              {result.runtime ? result.runtime : result.episode_run_time[0]}
+              {result.runtime
+                ? result.runtime
+                : result.episode_run_time
+                ? result.episode_run_time[0]
+                : 'Preparing'}
             </Item>
             {result.number_of_seasons ? (
               <>

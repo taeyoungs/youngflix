@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import Helmet from 'react-helmet';
 
 const Container = styled.div`
   height: 50vh;
@@ -11,9 +12,14 @@ const Container = styled.div`
 `;
 
 export default () => (
-  <Container>
-    <span role="img" aria-label="loading">
-      ⏰
-    </span>
-  </Container>
+  <>
+    <Helmet>
+      <title>Loading | Youngflix</title>
+    </Helmet>
+    <Container>
+      <span role="img" aria-label="loading">
+        ⏰
+      </span>
+    </Container>
+  </>
 );
