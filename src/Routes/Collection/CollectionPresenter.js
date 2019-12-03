@@ -106,6 +106,7 @@ const Image = styled('div')`
   background-image: url(${props => props.imageUrl});
   background-position: top center;
   background-size: cover;
+  border-radius: 3px;
 `;
 
 const Name = styled('div')`
