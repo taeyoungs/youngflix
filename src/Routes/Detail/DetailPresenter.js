@@ -113,7 +113,14 @@ const TabsContainer = styled('div')`
   width: 80%;
 `;
 
-const DetailPresenter = ({ result, loading, error, isMovie, detailId }) =>
+const DetailPresenter = ({
+  result,
+  loading,
+  error,
+  isMovie,
+  detailId,
+  imdbId,
+}) =>
   loading ? (
     <Loader />
   ) : (
@@ -195,11 +202,21 @@ const DetailPresenter = ({ result, loading, error, isMovie, detailId }) =>
                   : `${genre.name} / `,
               )}
             </Item>
-            {result.imdb_id && (
+            {result.imdb_id ? (
               <>
                 <Divider>•</Divider>
                 <Imdb
                   href={`https://www.imdb.com/title/${result.imdb_id}/`}
+                  target="_blank"
+                >
+                  <ImdbImage src="imdb.png" alt="imdb" />
+                </Imdb>
+              </>
+            ) : (
+              <>
+                <Divider>•</Divider>
+                <Imdb
+                  href={`https://www.imdb.com/title/${imdbId}/`}
                   target="_blank"
                 >
                   <ImdbImage src="imdb.png" alt="imdb" />

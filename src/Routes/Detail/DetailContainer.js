@@ -12,6 +12,7 @@ export default class extends React.Component {
       result: null,
       error: null,
       loading: true,
+      imdbId: null,
       isMovie: pathname.includes('/movie/'),
     };
   }
@@ -30,27 +31,38 @@ export default class extends React.Component {
       return push('/');
     }
     let result = null;
+    let externalIds = null;
     try {
       if (isMovie) {
         ({ data: result } = await movieApi.movieDetail(parsedId));
       } else {
         ({ data: result } = await tvApi.tvDetail(parsedId));
+        ({ data: externalIds } = await tvApi.imdb(parsedId));
       }
     } catch {
       this.setState({
         error: "Can't find Anything",
       });
     } finally {
-      this.setState({
-        loading: false,
-        result,
-        detailId: id,
-      });
+      if (isMovie) {
+        this.setState({
+          loading: false,
+          result,
+          detailId: id,
+        });
+      } else {
+        this.setState({
+          loading: false,
+          result,
+          detailId: id,
+          imdbId: externalIds.imdb_id,
+        });
+      }
     }
   }
 
   render() {
-    const { result, error, loading, isMovie, detailId } = this.state;
+    const { result, error, loading, isMovie, detailId, imdbId } = this.state;
     return (
       <DetailPresenter
         result={result}
@@ -58,6 +70,7 @@ export default class extends React.Component {
         loading={loading}
         isMovie={isMovie}
         detailId={detailId}
+        imdbId={imdbId}
       />
     );
   }

@@ -31,6 +31,7 @@ export const tvApi = {
   topRated: () => axios.get('tv/top_rated'),
   airingToday: () => axios.get('tv/airing_today'),
   popular: () => axios.get('tv/popular'),
+  imdb: id => axios.get(`tv/${id}/external_ids`),
   search: term =>
     axios.get('search/tv', {
       params: {
