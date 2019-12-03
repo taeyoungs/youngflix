@@ -20,6 +20,7 @@ const Image = styled('div')`
   background-position: center;
   transition: opacity 0.1s linear;
   margin-bottom: 5px;
+  border-radius: 3px;
 `;
 
 const ImageContainer = styled('div')`
