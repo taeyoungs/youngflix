@@ -20,3 +20,10 @@ Learning React and ES6 by building a Movie Discovery App
 - [x] TV Show Detail
 - [x] Search Movies
 - [x] Search TV Shows
+
+## ToDo
+
+- [x] Overview 접고 펴는 버튼
+- [ ] Class components hooks로 변경
+- [ ] Typescript lecture
+- [ ] Hooks lecture

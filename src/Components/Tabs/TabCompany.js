@@ -56,9 +56,9 @@ const TabCompany = props => {
   const [isMovie, setIsMovie] = useState(pathname.includes('/movie/'));
 
   const getDetail = async () => {
-    console.log(id);
+    // console.log(id);
     const parsedId = Number(id);
-    console.log(parsedId);
+    // console.log(parsedId);
     if (isNaN(parsedId)) {
       return push('/');
     }

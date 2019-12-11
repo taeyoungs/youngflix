@@ -1,4 +1,5 @@
 import React from 'react';
+import { Link } from 'react-router-dom';
 import styled from 'styled-components';
 import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
@@ -44,7 +45,7 @@ const Cover = styled('div')`
   width: 40%;
   height: 100%;
   background-image: url(${props => props.imageUrl});
-  background-position: center center;
+  background-position: bottom center;
   background-size: cover;
   border-radius: 5px;
   margin-right: 25px;
@@ -98,6 +99,10 @@ const ImageContainer = styled('div')`
   height: 100%;
   width: 100%;
   margin-bottom: 10px;
+  cursor: pointer;
+  &:hover {
+    opacity: 0.7;
+  }
 `;
 
 const Image = styled('div')`
@@ -118,6 +123,8 @@ const Year = styled('div')`
   font-size: 13px;
   color: rgba(255, 255, 255, 0.7);
 `;
+
+const DLink = styled(Link)``;
 
 const CollectionPresenter = ({ result, loading, error }) =>
   loading ? (
@@ -151,13 +158,15 @@ const CollectionPresenter = ({ result, loading, error }) =>
               result.parts.map(part => (
                 <ItemContainer key={part.id}>
                   <ImageContainer>
-                    <Image
-                      imageUrl={
-                        part.poster_path
-                          ? `https://image.tmdb.org/t/p/original${part.poster_path}`
-                          : require('../../assets/noPoster.png')
-                      }
-                    />
+                    <DLink to={`/movie/${part.id}`}>
+                      <Image
+                        imageUrl={
+                          part.poster_path
+                            ? `https://image.tmdb.org/t/p/original${part.poster_path}`
+                            : require('../../assets/noPoster.png')
+                        }
+                      />
+                    </DLink>
                   </ImageContainer>
                   <Name>{part.original_title}</Name>
                   <Year>{part.release_date}</Year>

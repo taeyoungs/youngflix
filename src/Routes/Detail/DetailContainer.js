@@ -8,14 +8,30 @@ export default class extends React.Component {
     const {
       location: { pathname },
     } = this.props;
+    this.overviewText = React.createRef();
     this.state = {
       result: null,
       error: null,
       loading: true,
       imdbId: null,
+      isClick: true,
       isMovie: pathname.includes('/movie/'),
     };
   }
+
+  handleClick = overview => {
+    if (this.state.isClick) {
+      this.overviewText.current.innerText = overview;
+      this.setState({
+        isClick: false,
+      });
+    } else {
+      this.overviewText.current.innerText = `${overview.substring(0, 290)} •••`;
+      this.setState({
+        isClick: true,
+      });
+    }
+  };
 
   async componentDidMount() {
     const {
@@ -62,7 +78,15 @@ export default class extends React.Component {
   }
 
   render() {
-    const { result, error, loading, isMovie, detailId, imdbId } = this.state;
+    const {
+      result,
+      error,
+      loading,
+      isMovie,
+      detailId,
+      imdbId,
+      isClick,
+    } = this.state;
     return (
       <DetailPresenter
         result={result}
@@ -71,6 +95,9 @@ export default class extends React.Component {
         isMovie={isMovie}
         detailId={detailId}
         imdbId={imdbId}
+        isClick={isClick}
+        handleClick={this.handleClick}
+        textRef={this.overviewText}
       />
     );
   }

@@ -86,13 +86,27 @@ const Divider = styled('span')`
   margin: 0px 10px;
 `;
 
-const Overview = styled('p')`
+const OverviewContainer = styled('div')`
+  margin-bottom: 20px;
+`;
+
+const Overview = styled('div')`
   padding: 10px;
   width: 75%;
   font-size: 17px;
   line-height: 1.5;
   color: rgba(255, 255, 255, 0.7);
-  margin-bottom: 20px;
+`;
+
+const OverviewBtn = styled('button')`
+  background-color: transparent;
+  border: none;
+  cursor: pointer;
+  outline: 0;
+  color: #f1c30f;
+  font-size: 8px;
+  margin-left: 10px;
+  filter: drop-shadow(1px 1px 1px #f1c40f);
 `;
 
 const Imdb = styled('a')`
@@ -120,6 +134,9 @@ const DetailPresenter = ({
   isMovie,
   detailId,
   imdbId,
+  textRef,
+  isClick,
+  handleClick,
 }) =>
   loading ? (
     <Loader />
@@ -224,7 +241,17 @@ const DetailPresenter = ({
               </>
             )}
           </ItemContainer>
-          <Overview>{result.overview}</Overview>
+          <OverviewContainer>
+            <Overview ref={textRef}>
+              {result.overview.substring(0, 290)}{' '}
+              {result.overview.length > 290 ? '•••' : null}
+            </Overview>
+            {result.overview.length > 290 ? (
+              <OverviewBtn onClick={() => handleClick(result.overview)}>
+                {isClick ? '▶▶' : '◀◀'}
+              </OverviewBtn>
+            ) : null}
+          </OverviewContainer>
           {result.videos.results && (
             <VideoContainer>
               {result.videos.results.map(
