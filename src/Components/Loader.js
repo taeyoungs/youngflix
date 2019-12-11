@@ -4,7 +4,7 @@ import Helmet from 'react-helmet';
 
 const Container = styled.div`
   height: 50vh;
-  width: 100vw;
+  width: 100%;
   display: flex;
   justify-content: center;
   align-items: center;
