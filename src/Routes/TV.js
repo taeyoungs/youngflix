@@ -1,27 +1,62 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import Loader from 'Components/Loader';
 import Section from 'Components/Section';
 import Message from 'Components/Message';
 import Poster from 'Components/Poster';
+import { tvApi } from 'api';
 
 const Container = styled('div')`
   padding: 20px;
 `;
 
-const TVPresenter = ({ topRated, airingToday, popular, loading, error }) =>
-  loading ? (
+const TV = () => {
+  const [result, setResult] = useState({
+    topRated: null,
+    airingToday: null,
+    popular: null,
+  });
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  const getResult = async () => {
+    try {
+      const {
+        data: { results: topRated },
+      } = await tvApi.topRated();
+      const {
+        data: { results: airingToday },
+      } = await tvApi.airingToday();
+      const {
+        data: { results: popular },
+      } = await tvApi.popular();
+      setResult({
+        topRated,
+        airingToday,
+        popular,
+      });
+    } catch {
+      setError("Can't find anything");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getResult();
+  }, []);
+
+  return loading ? (
     <Loader />
   ) : (
     <Container>
       <Helmet>
         <title>TV Shows | Youngflix</title>
       </Helmet>
-      {topRated && topRated.length > 0 && (
+      {result.topRated && result.topRated.length > 0 && (
         <Section title="Top Rated Shows">
-          {topRated.map(show => (
+          {result.topRated.map(show => (
             <Poster
               key={show.id}
               id={show.id}
@@ -33,9 +68,9 @@ const TVPresenter = ({ topRated, airingToday, popular, loading, error }) =>
           ))}
         </Section>
       )}
-      {popular && popular.length > 0 && (
+      {result.popular && result.popular.length > 0 && (
         <Section title="Popular Shows">
-          {popular.map(show => (
+          {result.popular.map(show => (
             <Poster
               key={show.id}
               id={show.id}
@@ -47,9 +82,9 @@ const TVPresenter = ({ topRated, airingToday, popular, loading, error }) =>
           ))}
         </Section>
       )}
-      {airingToday && airingToday.length > 0 && (
+      {result.airingToday && result.airingToday.length > 0 && (
         <Section title="Airing Today">
-          {airingToday.map(show => (
+          {result.airingToday.map(show => (
             <Poster
               key={show.id}
               id={show.id}
@@ -64,13 +99,6 @@ const TVPresenter = ({ topRated, airingToday, popular, loading, error }) =>
       {error && <Message color="#e74c3c" text={error} />}
     </Container>
   );
-
-TVPresenter.propTypes = {
-  topRated: PropTypes.array,
-  airingToday: PropTypes.array,
-  popular: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
 };
 
-export default TVPresenter;
+export default TV;
