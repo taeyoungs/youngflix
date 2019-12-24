@@ -29,7 +29,11 @@ Learning React and ES6 by building a Movie Discovery App
 - [ ] Typescript lecture
 - [ ] Hooks lecture
 
+## Link
+
+https://clever-cori-810b75.netlify.com/#/
 
 ## Detail Page (12-24)
 
 <img src="detail-page.png" />
+
