@@ -25,7 +25,7 @@ Learning React and ES6 by building a Movie Discovery App
 
 - [x] Overview 접고 펴는 버튼
 - [x] Class components hooks로 변경
-- [ ] Loading component => Suspence로 변경
+- [x] Loading component => Suspense로 변경 (일부분만)
 - [ ] Typescript lecture
 - [ ] Hooks lecture
 

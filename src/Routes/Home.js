@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from 'react';
 import { movieApi } from 'api';
-import styled from 'styled-components';
-import Helmet from 'react-helmet';
-import Section from 'Components/Section';
 import Loader from 'Components/Loader';
-import Message from 'Components/Message';
-import Poster from 'Components/Poster';
 
-const Container = styled('div')`
-  padding: 20px;
-`;
+const HomeComponent = React.lazy(() =>
+  import('Components/PageContents/HomeContent.js'),
+);
 
 const Home = () => {
   const [result, setResult] = useState({
@@ -17,8 +12,7 @@ const Home = () => {
     popular: null,
     upcoming: null,
   });
-  const [error, setError] = useState();
-  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState('');
 
   const getResult = async () => {
     try {
@@ -38,8 +32,6 @@ const Home = () => {
       });
     } catch (error) {
       setError("Can't find anything");
-    } finally {
-      setLoading(false);
     }
   };
 
@@ -47,60 +39,10 @@ const Home = () => {
     getResult();
   }, []);
 
-  return loading ? (
-    <Loader />
-  ) : (
-    <Container>
-      <Helmet>
-        <title>Movies | Youngflix</title>
-      </Helmet>
-      {result.nowPlaying && result.nowPlaying.length > 0 && (
-        <Section title="Now Playing">
-          {result.nowPlaying.map(movie => (
-            <Poster
-              key={movie.id}
-              id={movie.id}
-              title={movie.original_title}
-              imageUrl={movie.poster_path}
-              year={movie.release_date && movie.release_date.substring(0, 4)}
-              rating={movie.vote_average}
-              isMovie={true}
-            />
-          ))}
-        </Section>
-      )}
-      {result.upcoming && result.upcoming.length > 0 && (
-        <Section title="Upcoming Movies">
-          {result.upcoming.map(movie => (
-            <Poster
-              key={movie.id}
-              id={movie.id}
-              title={movie.original_title}
-              imageUrl={movie.poster_path}
-              year={movie.release_date && movie.release_date.substring(0, 4)}
-              rating={movie.vote_average}
-              isMovie={true}
-            />
-          ))}
-        </Section>
-      )}
-      {result.popular && result.popular.length > 0 && (
-        <Section title="Popular Movies">
-          {result.popular.map(movie => (
-            <Poster
-              key={movie.id}
-              id={movie.id}
-              title={movie.original_title}
-              imageUrl={movie.poster_path}
-              year={movie.release_date && movie.release_date.substring(0, 4)}
-              rating={movie.vote_average}
-              isMovie={true}
-            />
-          ))}
-        </Section>
-      )}
-      {error && <Message color="#e74c3c" text={error} />}
-    </Container>
+  return (
+    <React.Suspense fallback={<Loader />}>
+      <HomeComponent result={result} error={error} />
+    </React.Suspense>
   );
 };
 
