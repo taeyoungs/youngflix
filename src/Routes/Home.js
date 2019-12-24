@@ -1,6 +1,6 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { movieApi } from 'api';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import Section from 'Components/Section';
 import Loader from 'Components/Loader';
@@ -11,17 +11,52 @@ const Container = styled('div')`
   padding: 20px;
 `;
 
-const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
-  loading ? (
+const Home = () => {
+  const [result, setResult] = useState({
+    nowPlaying: null,
+    popular: null,
+    upcoming: null,
+  });
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
+
+  const getResult = async () => {
+    try {
+      const {
+        data: { results: nowPlaying },
+      } = await movieApi.nowPlaying();
+      const {
+        data: { results: upcoming },
+      } = await movieApi.upcoming();
+      const {
+        data: { results: popular },
+      } = await movieApi.popular();
+      setResult({
+        nowPlaying,
+        popular,
+        upcoming,
+      });
+    } catch (error) {
+      setError("Can't find anything");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getResult();
+  }, []);
+
+  return loading ? (
     <Loader />
   ) : (
     <Container>
       <Helmet>
         <title>Movies | Youngflix</title>
       </Helmet>
-      {nowPlaying && nowPlaying.length > 0 && (
+      {result.nowPlaying && result.nowPlaying.length > 0 && (
         <Section title="Now Playing">
-          {nowPlaying.map(movie => (
+          {result.nowPlaying.map(movie => (
             <Poster
               key={movie.id}
               id={movie.id}
@@ -34,9 +69,9 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
           ))}
         </Section>
       )}
-      {upcoming && upcoming.length > 0 && (
+      {result.upcoming && result.upcoming.length > 0 && (
         <Section title="Upcoming Movies">
-          {upcoming.map(movie => (
+          {result.upcoming.map(movie => (
             <Poster
               key={movie.id}
               id={movie.id}
@@ -49,9 +84,9 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
           ))}
         </Section>
       )}
-      {popular && popular.length > 0 && (
+      {result.popular && result.popular.length > 0 && (
         <Section title="Popular Movies">
-          {popular.map(movie => (
+          {result.popular.map(movie => (
             <Poster
               key={movie.id}
               id={movie.id}
@@ -67,13 +102,6 @@ const HomePresenter = ({ nowPlaying, upcoming, popular, loading, error }) =>
       {error && <Message color="#e74c3c" text={error} />}
     </Container>
   );
-
-HomePresenter.propTypes = {
-  nowPlaying: PropTypes.array,
-  upcoming: PropTypes.array,
-  popular: PropTypes.array,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
 };
 
-export default HomePresenter;
+export default Home;

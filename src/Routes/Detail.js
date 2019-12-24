@@ -1,6 +1,5 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
 import { FiClock, FiCalendar } from 'react-icons/fi';
 import StarRatings from 'react-star-ratings';
@@ -8,6 +7,8 @@ import Loader from 'Components/Loader';
 import VideoLinks from 'Components/VideoLinks';
 import MovieTabs from 'Components/MovieTabs';
 import ShowTabs from 'Components/ShowTabs';
+import Message from 'Components/Message';
+import { movieApi, tvApi } from 'api';
 
 const Container = styled('div')`
   position: relative;
@@ -127,18 +128,63 @@ const TabsContainer = styled('div')`
   width: 80%;
 `;
 
-const DetailPresenter = ({
-  result,
-  loading,
-  error,
-  isMovie,
-  detailId,
-  imdbId,
-  textRef,
-  isClick,
-  handleClick,
-}) =>
-  loading ? (
+const Detail = props => {
+  const {
+    location: { pathname },
+  } = props;
+  const overviewText = React.createRef();
+
+  const [result, setResult] = useState();
+  const [error, setError] = useState();
+  const [loading, setLoading] = useState(true);
+  const [isClick, setIsClick] = useState(true);
+
+  let imdbId = null;
+  const isMovie = pathname.includes('/movie/');
+
+  const {
+    match: {
+      params: { id },
+    },
+    history: { push },
+  } = props;
+
+  const handleClick = overview => {
+    if (isClick) {
+      overviewText.current.innerText = overview;
+      setIsClick(false);
+    } else {
+      overviewText.current.innerText = `${overview.substring(0, 290)} •••`;
+      setIsClick(true);
+    }
+  };
+
+  const getResult = async () => {
+    let result = null;
+    const parsedId = Number(id);
+    if (isNaN(parsedId)) {
+      return push('/');
+    }
+    try {
+      if (isMovie) {
+        ({ data: result } = await movieApi.movieDetail(parsedId));
+      } else {
+        ({ data: result } = await tvApi.tvDetail(parsedId));
+        ({ data: imdbId } = await tvApi.imdb(parsedId));
+      }
+      setResult(result);
+    } catch (error) {
+      setError("Can't find Anything");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getResult();
+  }, []);
+
+  return loading ? (
     <Loader />
   ) : (
     <Container>
@@ -152,7 +198,7 @@ const DetailPresenter = ({
         imageUrl={
           result.backdrop_path
             ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-            : require('../../assets/noPoster.png')
+            : require('../assets/noPoster.png')
         }
       />
       <Content>
@@ -160,7 +206,7 @@ const DetailPresenter = ({
           imageUrl={
             result.poster_path
               ? `https://image.tmdb.org/t/p/original${result.poster_path}`
-              : require('../../assets/noPoster.png')
+              : require('../assets/noPoster.png')
           }
         />
         <Data>
@@ -242,7 +288,7 @@ const DetailPresenter = ({
             )}
           </ItemContainer>
           <OverviewContainer>
-            <Overview ref={textRef}>
+            <Overview ref={overviewText}>
               {result.overview.substring(0, 290)}{' '}
               {result.overview.length > 290 ? '•••' : null}
             </Overview>
@@ -270,22 +316,18 @@ const DetailPresenter = ({
           <TabsContainer>
             {isMovie ? (
               <MovieTabs
-                detailId={detailId}
+                detailId={id}
                 collection={result.belongs_to_collection}
               />
             ) : (
-              <ShowTabs detailId={detailId} />
+              <ShowTabs detailId={id} />
             )}
           </TabsContainer>
         </Data>
       </Content>
+      {error && <Message color="#e74c3c" text={error} />}
     </Container>
   );
-
-DetailPresenter.propTypes = {
-  result: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
 };
 
-export default DetailPresenter;
+export default Detail;

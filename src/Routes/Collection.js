@@ -1,9 +1,10 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, withRouter } from 'react-router-dom';
 import styled from 'styled-components';
-import PropTypes from 'prop-types';
 import Helmet from 'react-helmet';
+import { movieApi } from 'api';
 import Loader from 'Components/Loader';
+import Message from 'Components/Message';
 
 const Container = styled('div')`
   position: relative;
@@ -126,12 +127,41 @@ const Year = styled('div')`
 
 const DLink = styled(Link)``;
 
-const CollectionPresenter = ({ result, loading, error }) =>
-  loading ? (
+const Collection = props => {
+  const [result, setResult] = useState();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState();
+
+  const {
+    match: {
+      params: { id },
+    },
+    history: { push },
+  } = props;
+
+  const getResult = async () => {
+    const parsedId = Number(id);
+    if (isNaN(parsedId)) {
+      return push('/');
+    }
+    try {
+      const { data: result } = await movieApi.collection(parsedId);
+      setResult(result);
+    } catch (error) {
+      setError("Can't find movie information");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    getResult();
+  }, []);
+
+  return loading ? (
     <Loader />
   ) : (
     <Container>
-      {console.log(result)}
       <Helmet>
         <title>{result.name} | Youngflix</title>
       </Helmet>
@@ -139,7 +169,7 @@ const CollectionPresenter = ({ result, loading, error }) =>
         imageUrl={
           result.backdrop_path
             ? `https://image.tmdb.org/t/p/original${result.backdrop_path}`
-            : require('../../assets/noPoster.png')
+            : require('../assets/noPoster.png')
         }
       />
       <Content>
@@ -147,7 +177,7 @@ const CollectionPresenter = ({ result, loading, error }) =>
           imageUrl={
             result.poster_path
               ? `https://image.tmdb.org/t/p/original${result.poster_path}`
-              : require('../../assets/noPoster.png')
+              : require('../assets/noPoster.png')
           }
         />
         <Data>
@@ -163,7 +193,7 @@ const CollectionPresenter = ({ result, loading, error }) =>
                         imageUrl={
                           part.poster_path
                             ? `https://image.tmdb.org/t/p/original${part.poster_path}`
-                            : require('../../assets/noPoster.png')
+                            : require('../assets/noPoster.png')
                         }
                       />
                     </DLink>
@@ -175,13 +205,9 @@ const CollectionPresenter = ({ result, loading, error }) =>
           </Grid>
         </Data>
       </Content>
+      {error && <Message color="#e74c3c" text={error} />}
     </Container>
   );
-
-CollectionPresenter.propTypes = {
-  result: PropTypes.object,
-  loading: PropTypes.bool.isRequired,
-  error: PropTypes.string,
 };
 
-export default CollectionPresenter;
+export default Collection;
