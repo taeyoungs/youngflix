@@ -1,6 +1,10 @@
 # Youngflix
 
-Learning React and ES6 by building a Movie Discovery App
+> Movie Discovery App ( React, ES6 )
+
+## Link
+
+https://clever-cori-810b75.netlify.com/#/
 
 ## Screens
 
@@ -26,14 +30,3 @@ Learning React and ES6 by building a Movie Discovery App
 - [x] Overview 접고 펴는 버튼
 - [x] Class components hooks로 변경
 - [x] Loading component => Suspense로 변경 (일부분만)
-- [ ] Typescript lecture
-- [ ] Hooks lecture
-
-## Link
-
-https://clever-cori-810b75.netlify.com/#/
-
-## Detail Page (12-24)
-
-<img src="detail-page.png" />
-
