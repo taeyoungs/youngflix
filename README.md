@@ -8,25 +8,23 @@ https://clever-cori-810b75.netlify.com/#/
 
 ## Screens
 
-- [x] Home
-- [x] TV Shows
-- [x] Search
-- [x] Detail
+-   [x] Home
+-   [x] TV Shows
+-   [x] Search
+-   [x] Detail
 
 ## API
 
-- [x] Now Playing (Movie)
-- [x] UpComing (Movie)
-- [x] Top Rated (TV)
-- [x] Airing Today (TV)
-- [x] Popular (TV, Movie)
-- [x] Movie Detail
-- [x] TV Show Detail
-- [x] Search Movies
-- [x] Search TV Shows
+-   [x] Now Playing (Movie)
+-   [x] UpComing (Movie)
+-   [x] Top Rated (TV)
+-   [x] Airing Today (TV)
+-   [x] Popular (TV, Movie)
+-   [x] Movie Detail
+-   [x] TV Show Detail
+-   [x] Search Movies
+-   [x] Search TV Shows
 
-## ToDo
+## Preview
 
-- [x] Overview 접고 펴는 버튼
-- [x] Class components hooks로 변경
-- [x] Loading component => Suspense로 변경 (일부분만)
+<img src="https://drive.google.com/uc?export=download&id=1KG9UT0xY3k3kRt2mOaMlLWIwtYfgXKy4">
